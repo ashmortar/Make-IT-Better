@@ -6,9 +6,6 @@ import models.Cause;
 
 import java.util.List;
 
-/**
- * Created by Guest on 1/24/18.
- */
 public interface CauseDao {
 
 

@@ -5,9 +5,6 @@ import models.Tour;
 
 import java.util.List;
 
-/**
- * Created by Guest on 1/25/18.
- */
 public interface TourDao {
 
     //create

@@ -3,9 +3,6 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Guest on 1/25/18.
- */
 public class Tour {
     private int id;
     private Integer startPoint;

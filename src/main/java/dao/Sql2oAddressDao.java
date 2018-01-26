@@ -8,9 +8,6 @@ import org.sql2o.Sql2oException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Guest on 1/24/18.
- */
 public class Sql2oAddressDao implements AddressDao {
 
     private final Sql2o sql2o;

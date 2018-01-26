@@ -11,9 +11,6 @@ import sun.awt.CausedFocusEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Guest on 1/24/18.
- */
 public class Sql2oBusinessDao implements BusinessDao {
     private final Sql2o sql2o;
 

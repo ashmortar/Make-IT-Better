@@ -17,9 +17,6 @@ import java.util.List;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- * Created by Guest on 1/25/18.
- */
 public class Sql2oTourDao implements TourDao {
 
     private final Sql2o sql2o;

@@ -12,9 +12,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Guest on 1/25/18.
- */
 public class Sql2oTourDaoTest {
     private Connection fred;
     private Sql2oCauseDao causeDao;

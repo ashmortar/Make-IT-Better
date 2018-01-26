@@ -1,8 +1,5 @@
 package models;
 
-/**
- * Created by Guest on 1/24/18.
- */
 public class Business {
     private int id;
     private String name;

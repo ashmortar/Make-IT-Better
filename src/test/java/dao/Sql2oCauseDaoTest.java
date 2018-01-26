@@ -13,9 +13,6 @@ import org.sql2o.Sql2o;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Guest on 1/24/18.
- */
 public class Sql2oCauseDaoTest {
 
     private Connection fred;
