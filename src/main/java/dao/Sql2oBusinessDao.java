@@ -262,17 +262,60 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
     }
 
     @Override
-    public void update(int id, String name, String phone, String website) {
-        String sql = "UPDATE businesses SET name = :name, type = :type, phone = :phone, website = :website WHERE id = :id";
-        try (Connection fred = sql2o.open()) {
-            fred.createQuery(sql)
-                    .addParameter("name", name)
-                    .addParameter("phone", phone)
-                    .addParameter("website", website)
-                    .addParameter("id", id)
-                    .executeUpdate();
-        } catch (Sql2oException ex) {
-            System.out.println(ex);
+    public void update(int id, Business business) {
+        String type = business.getType();
+        switch (type) {
+            case "bakery":
+                String bakerySQL = "UPDATE businesses SET name = :name, phone = :phone, website = :website, hours = :hours, specialty = :specialty, glutenFree = :glutenFree WHERE id = :id";
+                try (Connection con = sql2o.open()){
+                    con.createQuery(bakerySQL)
+                            .bind(business)
+                            .addParameter("id", id)
+                            .executeUpdate();
+                    break;
+                } catch (Sql2oException ex) {
+                    System.out.println(ex);
+                    break;
+                }
+            case "bar":
+                String barSQL = "UPDATE businesses SET name = :name, phone = :phone, website = :website, hours = :hours, food = :food, atmosphere = :atmosphere, hasTaps = :hasTaps, hasCocktails = :hasCocktails WHERE id = :id";
+                try (Connection con = sql2o.open()){
+                    con.createQuery(barSQL)
+                            .bind(business)
+                            .addParameter("id", id)
+                            .executeUpdate();
+                    break;
+                } catch (Sql2oException ex){
+                    System.out.println(ex);
+                    break;
+                }
+            case "cafe":
+                String cafeSQL = "UPDATE businesses SET name = :name, phone = :phone, website = :website, hours = :hours, food = :food, fairTrade = :fairTrade WHERE id = :id";
+                try (Connection con = sql2o.open()){
+                    con.createQuery(cafeSQL)
+                            .bind(business)
+                            .addParameter("id", id)
+                            .executeUpdate();
+                    break;
+                }catch (Sql2oException ex) {
+                    System.out.println(ex);
+                    break;
+                }
+            case "restaurant":
+                String restaurantSQL = "UPDATE businesses SET name = :name, phone = :phone, website = :website, hours = :hours, food = :food, needReservation = :needReservation, atmosphere = :atmosphere, hasBar = :hasBar WHERE id = :id";
+                try (Connection con = sql2o.open()){
+                    con.createQuery(restaurantSQL)
+                            .bind(business)
+                            .addParameter("id", id)
+                            .executeUpdate();
+                    break;
+                } catch (Sql2oException ex) {
+                    System.out.println(ex);
+                    break;
+                }
+                default:
+                    System.out.println("Not a business type");
+                    break;
         }
     }
 

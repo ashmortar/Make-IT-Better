@@ -23,7 +23,7 @@ public interface BusinessDao {
     List<Address> getAllAddressesForABusiness(int id);
 
     //update
-    void update(int id, String name, String phone, String website);
+    void update(int id, Business business);
     //destroy
     void deleteById(int id);
     void deleteAll();

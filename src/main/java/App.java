@@ -239,7 +239,7 @@ public class App {
             if (business == null) {
                 throw new ApiException(500, badData);
             }
-           businessDao.update(businessId, business.getName(), business.getPhone(), business.getWebsite());
+           businessDao.update(businessId,business);
            response.status(201);
            return gson.toJson(businessDao.findById(businessId));
         });

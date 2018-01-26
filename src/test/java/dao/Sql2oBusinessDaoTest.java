@@ -230,57 +230,120 @@ public class Sql2oBusinessDaoTest {
 
     }
 
-//    @Test
-//    public void getAllCausesForBusiness_returnsAllCausesAssociatedWithThatBusiness_true() throws Exception {
-//        Business testBusiness = setupBusiness();
-//        businessDao.add(testBusiness);
-//        Cause testCause1 = new Cause("a", "lkjsf", "lksdf", "lkasdf");
-//        Cause testCause2 = new Cause("b", "lsfdj", "oien", "nwoisd");
-//        Cause controlCause = new Cause("c", "sdoi", "qoic", "k,mi");
-//        causeDao.add(testCause1);
-//        causeDao.add(testCause2);
-//        causeDao.add(controlCause);
-//        businessDao.addCauseToBusiness(testBusiness, testCause1);
-//        businessDao.addCauseToBusiness(testBusiness, testCause2);
-//        assertEquals(2, businessDao.getAllCausesForABusiness(testBusiness.getId()).size());
-//        assertFalse(businessDao.getAllCausesForABusiness(testBusiness.getId()).contains(controlCause));
-//    }
-//
-//    @Test
-//    public void updateUpdatesInfo() throws Exception {
-//        Business business = setupBusiness();
-//        Business business1 = setupBusiness1();
-//        businessDao.add(business);
-//        businessDao.add(business1);
-//        businessDao.update(1, "a", "b", "c", "d");
-//        businessDao.update(2, "z", "x", "v", "q");
-//        assertEquals("a", businessDao.findById(1).getName());
-//        assertEquals("z", businessDao.findById(2).getName());
-//        assertEquals("b", businessDao.findById(1).getType());
-//        assertEquals("x", businessDao.findById(2).getType());
-//    }
-//
-//
-//    @Test
-//    public void deleteByIdDeletesCorrectly() throws Exception {
-//        Business business = setupBusiness();
-//        Business business1 = setupBusiness1();
-//        businessDao.add(business);
-//        businessDao.add(business1);
-//        businessDao.deleteById(1);
-//        assertFalse(businessDao.getAll().contains(business));
-//        assertEquals(1, businessDao.getAll().size());
-//    }
-//
-//    @Test
-//    public void deleteAllDeletesAll() throws Exception {
-//        Business business = setupBusiness();
-//        Business business1 = setupBusiness1();
-//        businessDao.add(business);
-//        businessDao.add(business1);
-//        assertEquals(2, businessDao.getAll().size());
-//        businessDao.deleteAll();
-//        assertEquals(0, businessDao.getAll().size());
-//    }
-//
+    @Test
+    public void getAllCausesForBusiness_returnsAllCausesAssociatedWithThatBusiness_true() throws Exception {
+        Business bakery = setupBakery();
+        Cause bakeryCause1 = new Cause("a", "a", "a", "a");
+        Cause bakeryCause2 = new Cause("b", "b", "b", "b");
+        businessDao.add(bakery);
+        causeDao.add(bakeryCause1);
+        causeDao.add(bakeryCause2);
+        businessDao.addCauseToBusiness(bakery, bakeryCause1);
+        businessDao.addCauseToBusiness(bakery, bakeryCause2);
+        assertEquals(2, businessDao.getAllCausesForABusiness(bakery.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(bakery.getId()).contains(bakeryCause1));
+        assertTrue(businessDao.getAllCausesForABusiness(bakery.getId()).contains(bakeryCause2));
+
+        Business bar = setupBar();
+        Cause barCause1 = new Cause("c", "c", "c", "c");
+        Cause barCause2 = new Cause("d", "d", "d", "d");
+        businessDao.add(bar);
+        causeDao.add(barCause1);
+        causeDao.add(barCause2);
+        businessDao.addCauseToBusiness(bar, barCause1);
+        businessDao.addCauseToBusiness(bar, barCause2);
+        assertEquals(2, businessDao.getAllCausesForABusiness(bar.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(bar.getId()).contains(barCause1));
+        assertTrue(businessDao.getAllCausesForABusiness(bar.getId()).contains(barCause2));
+
+        Business cafe = setupCafe();
+        Cause cafeCause1 = new Cause("e", "e", "e", "e");
+        Cause cafeCause2 = new Cause("f", "f", "f", "f");
+        businessDao.add(cafe);
+        causeDao.add(cafeCause1);
+        causeDao.add(cafeCause2);
+        businessDao.addCauseToBusiness(cafe, cafeCause1);
+        businessDao.addCauseToBusiness(cafe, cafeCause2);
+        assertEquals(2, businessDao.getAllCausesForABusiness(cafe.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(cafe.getId()).contains(cafeCause1));
+        assertTrue(businessDao.getAllCausesForABusiness(cafe.getId()).contains(cafeCause2));
+
+        Business restaurant = setupRestaurant();
+        Cause restaurantCause1 = new Cause("g", "g", "g", "g");
+        Cause restaurantCause2 = new Cause("h", "h", "h", "h");
+        businessDao.add(restaurant);
+        causeDao.add(restaurantCause1);
+        causeDao.add(restaurantCause2);
+        businessDao.addCauseToBusiness(restaurant, restaurantCause1);
+        businessDao.addCauseToBusiness(restaurant, restaurantCause2);
+        assertEquals(2, businessDao.getAllCausesForABusiness(restaurant.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(restaurant.getId()).contains(restaurantCause1));
+        assertTrue(businessDao.getAllCausesForABusiness(restaurant.getId()).contains(restaurantCause2));
+    }
+
+    @Test
+    public void updateUpdatesInfo() throws Exception {
+        Business bakery = setupBakery();
+        Business bar = setupBar();
+        Business cafe = setupCafe();
+        Business restaurant = setupRestaurant();
+        businessDao.add(bakery);
+        businessDao.add(bar);
+        businessDao.add(cafe);
+        businessDao.add(restaurant);
+        Business bakeryUpdate = new Bakery("a", "a", "a", "a", "a" ,false);
+        Business barUpdate = new Bar("b", "b", "b", "b", "b", "b", false, false);
+        Business cafeUpdate = new Cafe("c", "c", "c", "c", "c", true);
+        Business restaurantUpdate = new Restaurant("d", "d", "d", "d", "d", true, "d", false);
+        businessDao.update(1, bakeryUpdate);
+        businessDao.update(2, barUpdate);
+        businessDao.update(3, cafeUpdate);
+        businessDao.update(4, restaurantUpdate);
+        assertEquals("a", businessDao.findById(1).getName());
+        assertEquals("b", businessDao.findById(2).getName());
+        assertEquals("c", businessDao.findById(3).getName());
+        assertEquals("d", businessDao.findById(4).getName());
+    }
+
+
+    @Test
+    public void deleteByIdDeletesCorrectly() throws Exception {
+        Business bakery = setupBakery();
+        Business bar = setupBar();
+        Business cafe = setupCafe();
+        Business restaurant = setupRestaurant();
+        businessDao.add(bakery);
+        businessDao.add(bar);
+        businessDao.add(cafe);
+        businessDao.add(restaurant);
+        assertEquals(4, businessDao.getAll().size());
+        businessDao.deleteById(1);
+        assertEquals(3, businessDao.getAll().size());
+        assertFalse(businessDao.getAll().contains(bakery));
+        businessDao.deleteById(2);
+        assertEquals(2, businessDao.getAll().size());
+        assertFalse(businessDao.getAll().contains(bar));
+        businessDao.deleteById(3);
+        assertEquals(1, businessDao.getAll().size());
+        assertFalse(businessDao.getAll().contains(cafe));
+        businessDao.deleteById(4);
+        assertEquals(0, businessDao.getAll().size());
+        assertFalse(businessDao.getAll().contains(restaurant));
+    }
+
+    @Test
+    public void deleteAllDeletesAll() throws Exception {
+        Business bakery = setupBakery();
+        Business bar = setupBar();
+        Business cafe = setupCafe();
+        Business restaurant = setupRestaurant();
+        businessDao.add(bakery);
+        businessDao.add(bar);
+        businessDao.add(cafe);
+        businessDao.add(restaurant);
+        assertEquals(4, businessDao.getAll().size());
+        businessDao.deleteAll();
+        assertEquals(0, businessDao.getAll().size());
+    }
+
 }
