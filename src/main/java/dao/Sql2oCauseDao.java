@@ -1,8 +1,6 @@
 package dao;
 
-import models.Address;
-import models.Business;
-import models.Cause;
+import models.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
@@ -66,23 +64,51 @@ public class Sql2oCauseDao implements CauseDao{
 
     @Override
     public List<Business> getAllBusinessesForCause(int causeId) {
+        String typeSQL = "SELECT type FROM businesses";
+        String type = "";
         String sql = "SELECT businessid FROM causes_businesses WHERE causeid = :causeId";
         List<Business> businesses = new ArrayList<>();
         try (Connection fred = sql2o.open()) {
             List<Integer> allBusinessIds = fred.createQuery(sql)
                     .addParameter("causeId", causeId)
                     .executeAndFetch(Integer.class);
-                for (Integer businessId : allBusinessIds) {
-                String newQuery = "SELECT * FROM businesses WHERE id = :businessId";
-                businesses.add(
-                        fred.createQuery(newQuery)
-                                .addParameter("businessId", businessId)
-                                .executeAndFetchFirst(Business.class));
+            for (Integer businessId : allBusinessIds) {
+                try (Connection con = sql2o.open()) {
+                    type = con.createQuery(typeSQL)
+                            .executeAndFetchFirst(String.class);
+                    switch (type) {
+                        case "bakery":
+                            String bakerySQL = "SELECT name, phone, website, hours, specialty, glutenFree FROM businesses WHERE id = :id";
+                            businesses.add(con.createQuery(bakerySQL)
+                                    .addParameter("id", businessId)
+                                    .executeAndFetchFirst(Bakery.class));
+                            break;
+                        case "bar":
+                            String barSQL = "SELECT name, phone, website, hours, food, atmosphere, hasTaps, hasCocktails FROM businesses WHERE id = :id";
+                            businesses.add(con.createQuery(barSQL)
+                                    .addParameter("id", businessId)
+                                    .executeAndFetchFirst(Bar.class));
+                            break;
+                        case "cafe":
+                            String cafeSQL = "SELECT name, phone, website, hours, food, fairTrade FROM businesses WHERE id = :id";
+                            businesses.add(con.createQuery(cafeSQL)
+                                    .addParameter("id", businessId)
+                                    .executeAndFetchFirst(Cafe.class));
+                            break;
+                        case "restaurant":
+                            String restaurantSQL = "SELECT name, phone, website, hours, food, needReservation, atmosphere, hasBar FROM businesses WHERE id = :id";
+                            businesses.add(con.createQuery(restaurantSQL)
+                                    .addParameter("id", businessId)
+                                    .executeAndFetchFirst(Restaurant.class));
+                            break;
+                        default:
+                            System.out.println("not a businessType");
+                            break;
+                    }
                 }
-            } catch (Sql2oException ex) {
-            System.out.println(ex);
+            }
+            return businesses;
         }
-        return businesses;
     }
 
     @Override
