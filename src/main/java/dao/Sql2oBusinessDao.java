@@ -101,11 +101,66 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
 
     @Override
     public Business findById(int id) {
-        String sql = "SELECT * FROM businesses WHERE id = :id";
+        String sql = "SELECT type FROM businesses WHERE id = :id";
+        String type = "";
+        Business bakery = null;
+        Business bar = null;
+        Business cafe = null;
+        Business restaurant = null;
         try (Connection fred = sql2o.open()) {
-            return fred.createQuery(sql)
+            type = fred.createQuery(sql)
                     .addParameter("id", id)
-                    .executeAndFetchFirst(Business.class);
+                    .executeAndFetchFirst(String.class);
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+        switch (type){
+            case "bakery":
+                String bakerySQL = "SELECT name, phone, website, hours, specialty, glutenFree FROM businesses WHERE id = :id";
+                try (Connection con = sql2o.open()) {
+                    bakery = con.createQuery(bakerySQL)
+                            .addParameter("id", id)
+                            .executeAndFetchFirst(Bakery.class);
+                }
+                break;
+            case "bar":
+                String barSQL = "SELECT name, phone, website, hours, food, atmosphere, hasTaps, hasCocktails FROM businesses WHERE id = :id";
+                try (Connection con = sql2o.open()) {
+                    bar = con.createQuery(barSQL)
+                            .addParameter("id", id)
+                            .executeAndFetchFirst(Bar.class);
+                }
+                break;
+            case "cafe":
+                String cafeSQL = "SELECT name, phone, website, hours, food, fairTrade FROM businesses WHERE id = :id";
+                try (Connection con = sql2o.open()) {
+                    cafe =  con.createQuery(cafeSQL)
+                            .addParameter("id", id)
+                            .executeAndFetchFirst(Cafe.class);
+                }
+                break;
+            case "restaurant":
+                String restaurantSQL = "SELECT name, phone, website, hours, food, needReservation, atmosphere, hasBar FROM businesses WHERE id = :id";
+                try (Connection con = sql2o.open()) {
+                    restaurant = con.createQuery(restaurantSQL)
+                            .addParameter("id", id)
+                            .executeAndFetchFirst(Restaurant.class);
+                }
+                break;
+            default:
+                System.out.println("not a businessType");
+                break;
+        }
+        if (bakery != null){
+            return bakery;
+        } else if (bar != null) {
+            return bar;
+        } else if (cafe != null) {
+            return cafe;
+        } else if (restaurant != null) {
+            return restaurant;
+        } else {
+            return null;
         }
     }
 

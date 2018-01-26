@@ -148,18 +148,27 @@ public class Sql2oBusinessDaoTest {
         assertTrue(businessDao.getAllCausesForABusiness(restaurant.getId()).contains(restaurantCause));
     }
 
-//    @Test
-//    public void findByIdFindsCorrect() throws Exception {
-//        Business business = setupBusiness();
-//        Business business1 = setupBusiness1();
-//        businessDao.add(business);
-//        businessDao.add(business1);
-//        int businessId = business.getId();
-//        int businessId1 = business1.getId();
-//        assertEquals(business, businessDao.findById(businessId));
-//        assertEquals(business1, businessDao.findById(businessId1));
-//    }
-//
+    @Test
+    public void findByIdFindsCorrect() throws Exception {
+        Business bakery = setupBakery();
+        int originalBakeryId = bakery.getId();
+        businessDao.add(bakery);
+        Business bar = setupBar();
+        int originalBarId = bar.getId();
+        businessDao.add(bar);
+        Business cafe = setupCafe();
+        int originalCafeId = cafe.getId();
+        businessDao.add(cafe);
+        Business restaurant = setupRestaurant();
+        int originalRestaurantId = restaurant.getId();
+        businessDao.add(restaurant);
+
+        assertEquals(bakery.getName(), businessDao.findById(1).getName());
+        assertEquals(bar.getName(), businessDao.findById(2).getName());
+        assertEquals(cafe.getName(), businessDao.findById(3).getName());
+        assertEquals(restaurant.getName(), businessDao.findById(4).getName());
+    }
+
 //    @Test
 //    public void getAllGetsAll() throws Exception {
 //        Business business = setupBusiness();
