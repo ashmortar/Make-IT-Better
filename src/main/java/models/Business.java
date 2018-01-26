@@ -1,18 +1,14 @@
 package models;
 
-public class Business {
+import java.util.Objects;
+
+public abstract class Business {
     private int id;
-    private String name;
     private String type;
+    private String name;
     private String phone;
     private String website;
-
-    public Business(String name, String type, String phone, String website) {
-        this.name = name;
-        this.type = type;
-        this.phone = phone;
-        this.website = website;
-    }
+    private String hours;
 
     public int getId() {
         return id;
@@ -22,20 +18,20 @@ public class Business {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhone() {
@@ -54,6 +50,14 @@ public class Business {
         this.website = website;
     }
 
+    public String getHours() {
+        return hours;
+    }
+
+    public void setHours(String hours) {
+        this.hours = hours;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,18 +65,22 @@ public class Business {
 
         Business business = (Business) o;
 
+        if (id != business.id) return false;
+        if (!type.equals(business.type)) return false;
         if (!name.equals(business.name)) return false;
-        if (type != null ? !type.equals(business.type) : business.type != null) return false;
-        if (phone != null ? !phone.equals(business.phone) : business.phone != null) return false;
-        return website != null ? website.equals(business.website) : business.website == null;
+        if (!phone.equals(business.phone)) return false;
+        if (!website.equals(business.website)) return false;
+        return hours.equals(business.hours);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (website != null ? website.hashCode() : 0);
+        int result = id;
+        result = 31 * result + type.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + phone.hashCode();
+        result = 31 * result + website.hashCode();
+        result = 31 * result + hours.hashCode();
         return result;
     }
 }

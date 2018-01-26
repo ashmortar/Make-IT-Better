@@ -1,8 +1,6 @@
 package dao;
 
-import models.Address;
-import models.Business;
-import models.Cause;
+import models.*;
 
 import java.util.List;
 
@@ -14,10 +12,13 @@ public interface CauseDao {
     void addAddressToCause(Cause cause, Address address);
 
     //read
-    Cause findById(int id);
+    Cause findById(int charityId);
     List<Cause> getAll();
-    List<Business> getAllBusinessesForCause(int id);
-    List<Address> getAllAddressesForCause(int id);
+    List<Business> getAllBusinessesForCause(int charyityId);
+//    List<Bakery>getAllBakeriesForACause(int charityId);
+//    List<Bar>getAllBarsForACause(int charityId);
+//    List<Restaurant>getAllRestaurantsForACause(int charityId);
+    List<Address> getAllAddressesForCause(int charityId);
 
 
     //update

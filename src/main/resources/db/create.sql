@@ -2,10 +2,20 @@ SET MODE PostgreSQL;
 
 CREATE TABLE IF NOT EXISTS businesses (
     id int PRIMARY KEY auto_increment,
-    name VARCHAR,
     type VARCHAR,
+    name VARCHAR,
     phone VARCHAR,
-    website VARCHAR
+    website VARCHAR,
+    hours VARCHAR,
+    specialty VARCHAR,
+    glutenFree BOOLEAN,
+    food VARCHAR,
+    atmosphere VARCHAR,
+    hasTaps BOOLEAN,
+    hasCocktails BOOLEAN,
+    fairTrade BOOLEAN,
+    needReservation BOOLEAN,
+    hasBar BOOLEAN
 );
 
 CREATE TABLE IF NOT EXISTS causes (
