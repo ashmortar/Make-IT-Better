@@ -112,13 +112,40 @@ public class Sql2oBusinessDaoTest {
     @Test
     public void addCauseToBusiness_WorksForAllBusinessTypes_true() throws Exception {
         Business bakery = setupBakery();
-        Cause cause = new Cause("a", "a", "a", "a");
+        Cause bakeryCause = new Cause("a", "a", "a", "a");
         businessDao.add(bakery);
-        causeDao.add(cause);
-        businessDao.addCauseToBusiness(bakery, cause);
+        causeDao.add(bakeryCause);
+        businessDao.addCauseToBusiness(bakery, bakeryCause);
+
+        Business bar = setupBar();
+        Cause barCause = new Cause("b", "b", "b", "b");
+        businessDao.add(bar);
+        causeDao.add(barCause);
+        businessDao.addCauseToBusiness(bar, barCause);
+
+        Business cafe = setupCafe();
+        Cause cafeCause = new Cause("c", "c", "c", "c");
+        businessDao.add(cafe);
+        causeDao.add(cafeCause);
+        businessDao.addCauseToBusiness(cafe, cafeCause);
+
+        Business restaurant = setupRestaurant();
+        Cause restaurantCause = new Cause("d", "d", "d", "d");
+        businessDao.add(restaurant);
+        causeDao.add(restaurantCause);
+        businessDao.addCauseToBusiness(restaurant, restaurantCause);
 
         assertEquals(1, businessDao.getAllCausesForABusiness(bakery.getId()).size());
-        assertTrue(businessDao.getAllCausesForABusiness(bakery.getId()).contains(cause));
+        assertTrue(businessDao.getAllCausesForABusiness(bakery.getId()).contains(bakeryCause));
+
+        assertEquals(1, businessDao.getAllCausesForABusiness(bar.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(bar.getId()).contains(barCause));
+
+        assertEquals(1, businessDao.getAllCausesForABusiness(cafe.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(cafe.getId()).contains(cafeCause));
+
+        assertEquals(1, businessDao.getAllCausesForABusiness(restaurant.getId()).size());
+        assertTrue(businessDao.getAllCausesForABusiness(restaurant.getId()).contains(restaurantCause));
     }
 
 //    @Test
