@@ -151,16 +151,12 @@ public class Sql2oBusinessDaoTest {
     @Test
     public void findByIdFindsCorrect() throws Exception {
         Business bakery = setupBakery();
-        int originalBakeryId = bakery.getId();
         businessDao.add(bakery);
         Business bar = setupBar();
-        int originalBarId = bar.getId();
         businessDao.add(bar);
         Business cafe = setupCafe();
-        int originalCafeId = cafe.getId();
         businessDao.add(cafe);
         Business restaurant = setupRestaurant();
-        int originalRestaurantId = restaurant.getId();
         businessDao.add(restaurant);
 
         assertEquals(bakery.getName(), businessDao.findById(1).getName());
@@ -169,35 +165,71 @@ public class Sql2oBusinessDaoTest {
         assertEquals(restaurant.getName(), businessDao.findById(4).getName());
     }
 
-//    @Test
-//    public void getAllGetsAll() throws Exception {
-//        Business business = setupBusiness();
-//        Business business1 = setupBusiness1();
-//        businessDao.add(business);
-//        businessDao.add(business1);
-//        assertEquals(2, businessDao.getAll().size());
-//        assertTrue(businessDao.getAll().contains(business));
-//        assertTrue(businessDao.getAll().contains(business1));
-//    }
-//
-//    @Test
-//    public void getAllAdressesForBusinessGetsAll() throws Exception {
-//        Business business = setupBusiness();
-//        Address address = new Address("a", "a", "a", "a");
-//        businessDao.add(business);
-//        addressDao.add(address);
-//        Address address1 = new Address("gf", "iaoerjtoia", "areioj", "345w2");
-//        addressDao.add(address1);
-//        Address controlAddress = new Address("1", "2", "3", "4");
-//        addressDao.add(controlAddress);
-//        businessDao.addAddressToBusiness(business, address);
-//        businessDao.addAddressToBusiness(business, address1);
-//        assertEquals(3, addressDao.getAll().size());
-//        assertEquals(2, businessDao.getAllAddressesForABusiness(business.getId()).size());
-//        assertFalse(businessDao.getAllAddressesForABusiness(business.getId()).contains(controlAddress));
-//
-//    }
-//
+    @Test
+    public void getAll_returnsAllBusinessesRegardlessOfSubtype_true() throws Exception {
+        Business bakery = setupBakery();
+        businessDao.add(bakery);
+        Business bar = setupBar();
+        businessDao.add(bar);
+        Business cafe = setupCafe();
+        businessDao.add(cafe);
+        Business restaurant = setupRestaurant();
+        businessDao.add(restaurant);
+        assertEquals(4, businessDao.getAll().size());
+    }
+
+    @Test
+    public void getAllAddressesForBusiness_worksForAllSubtypes_True() throws Exception {
+        Business bakery = setupBakery();
+        Address bakeryAddress1 = new Address("a", "a", "a", "a");
+        Address bakeryAddress2 = new Address("b", "b", "b", "b");
+        businessDao.add(bakery);
+        addressDao.add(bakeryAddress1);
+        addressDao.add(bakeryAddress2);
+        businessDao.addAddressToBusiness(bakery, bakeryAddress1);
+        businessDao.addAddressToBusiness(bakery, bakeryAddress2);
+        assertEquals(2, businessDao.getAllAddressesForABusiness(bakery.getId()).size());
+        assertTrue(businessDao.getAllAddressesForABusiness(bakery.getId()).contains(bakeryAddress1));
+        assertTrue(businessDao.getAllAddressesForABusiness(bakery.getId()).contains(bakeryAddress2));
+
+        Business bar = setupBar();
+        Address barAddress1 = new Address("c", "c", "c", "c");
+        Address barAddress2 = new Address("d", "d", "d", "d");
+        businessDao.add(bar);
+        addressDao.add(barAddress1);
+        addressDao.add(barAddress2);
+        businessDao.addAddressToBusiness(bar, barAddress1);
+        businessDao.addAddressToBusiness(bar, barAddress2);
+        assertEquals(2, businessDao.getAllAddressesForABusiness(bar.getId()).size());
+        assertTrue(businessDao.getAllAddressesForABusiness(bar.getId()).contains(barAddress1));
+        assertTrue(businessDao.getAllAddressesForABusiness(bar.getId()).contains(barAddress2));
+
+        Business cafe = setupCafe();
+        Address cafeAddress1 = new Address("e", "e", "e", "e");
+        Address cafeAddress2 = new Address("f", "f", "f", "f");
+        businessDao.add(cafe);
+        addressDao.add(cafeAddress1);
+        addressDao.add(cafeAddress2);
+        businessDao.addAddressToBusiness(cafe, cafeAddress1);
+        businessDao.addAddressToBusiness(cafe, cafeAddress2);
+        assertEquals(2, businessDao.getAllAddressesForABusiness(cafe.getId()).size());
+        assertTrue(businessDao.getAllAddressesForABusiness(cafe.getId()).contains(cafeAddress1));
+        assertTrue(businessDao.getAllAddressesForABusiness(cafe.getId()).contains(cafeAddress2));
+
+        Business restaurant = setupRestaurant();
+        Address restaurantAddress1 = new Address("g", "g", "g", "g");
+        Address restaurantAddress2 = new Address("h", "h", "h", "h");
+        businessDao.add(restaurant);
+        addressDao.add(restaurantAddress1);
+        addressDao.add(restaurantAddress2);
+        businessDao.addAddressToBusiness(restaurant, restaurantAddress1);
+        businessDao.addAddressToBusiness(restaurant, restaurantAddress2);
+        assertEquals(2, businessDao.getAllAddressesForABusiness(restaurant.getId()).size());
+        assertTrue(businessDao.getAllAddressesForABusiness(restaurant.getId()).contains(restaurantAddress1));
+        assertTrue(businessDao.getAllAddressesForABusiness(restaurant.getId()).contains(restaurantAddress2));
+
+    }
+
 //    @Test
 //    public void getAllCausesForBusiness_returnsAllCausesAssociatedWithThatBusiness_true() throws Exception {
 //        Business testBusiness = setupBusiness();

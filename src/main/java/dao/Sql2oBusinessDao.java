@@ -76,8 +76,8 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
     @Override
     public void addAddressToBusiness(Business business, Address address) {
         String sql = "INSERT INTO addresses_businesses (addressid, businessid) VALUES (:addressId, :businessId)";
-        try (Connection fred = sql2o.open()) {
-            fred.createQuery(sql)
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
                     .addParameter("addressId", address.getId())
                     .addParameter("businessId", business.getId())
                     .executeUpdate();
@@ -89,8 +89,8 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
     @Override
     public void addCauseToBusiness(Business business, Cause cause) {
         String sql = "INSERT INTO causes_businesses (causeid, businessid) VALUES (:causeId, :businessId)";
-        try (Connection poop = sql2o.open()) {
-            poop.createQuery(sql)
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sql)
                     .addParameter("causeId", cause.getId())
                     .addParameter("businessId", business.getId())
                     .executeUpdate();
@@ -107,8 +107,8 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
         Business bar = null;
         Business cafe = null;
         Business restaurant = null;
-        try (Connection fred = sql2o.open()) {
-            type = fred.createQuery(sql)
+        try (Connection con = sql2o.open()) {
+            type = con.createQuery(sql)
                     .addParameter("id", id)
                     .executeAndFetchFirst(String.class);
         } catch (Sql2oException ex) {
@@ -166,12 +166,54 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
 
     @Override
     public List<Business> getAll() {
-        String sql = "SELECT * FROM businesses";
-        try (Connection fred = sql2o.open()) {
-            return fred.createQuery(sql)
-                    .executeAndFetch(Business.class);
+        String sql = "SELECT type FROM businesses";
+        String type = "";
+        List<Integer> ids = new ArrayList<>();
+        List<Business> businesses = new ArrayList<>();
+        try (Connection con = sql2o.open()) {
+            ids = con.createQuery("SELECT id FROM businesses")
+                    .executeAndFetch(Integer.class);
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
         }
+        for (Integer id : ids) {
+            try (Connection con = sql2o.open()) {
+                     type = con.createQuery(sql)
+                        .executeAndFetchFirst(String .class);
+                     switch (type) {
+                         case "bakery":
+                             String bakerySQL = "SELECT name, phone, website, hours, specialty, glutenFree FROM businesses WHERE id = :id";
+                             businesses.add(con.createQuery(bakerySQL)
+                                     .addParameter("id", id)
+                                     .executeAndFetchFirst(Bakery.class));
+                             break;
+                         case "bar":
+                             String barSQL = "SELECT name, phone, website, hours, food, atmosphere, hasTaps, hasCocktails FROM businesses WHERE id = :id";
+                             businesses.add(con.createQuery(barSQL)
+                                     .addParameter("id", id)
+                                     .executeAndFetchFirst(Bar.class));
+                             break;
+                         case "cafe":
+                             String cafeSQL = "SELECT name, phone, website, hours, food, fairTrade FROM businesses WHERE id = :id";
+                             businesses.add(con.createQuery(cafeSQL)
+                                     .addParameter("id", id)
+                                     .executeAndFetchFirst(Cafe.class));
+                             break;
+                         case "restaurant":
+                             String restaurantSQL = "SELECT name, phone, website, hours, food, needReservation, atmosphere, hasBar FROM businesses WHERE id = :id";
+                             businesses.add(con.createQuery(restaurantSQL)
+                                     .addParameter("id", id)
+                                     .executeAndFetchFirst(Restaurant.class));
+                             break;
+                         default:
+                             System.out.println("not a businessType");
+                             break;
+                     }
+                }
+            }
+        return businesses;
     }
+
 
     @Override
     public List<Address> getAllAddressesForABusiness(int businessId) {
