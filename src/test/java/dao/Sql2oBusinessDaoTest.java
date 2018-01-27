@@ -400,6 +400,54 @@ public class Sql2oBusinessDaoTest {
     }
 
     @Test
+    public void deleteAllBars_removesAllBarSubtypeBusiness_true() {
+        Business barOne = setupBar();
+        Business barTwo = setupBar();
+        barTwo.setName("TEST");
+        Business notABar = setupCafe();
+        businessDao.add(barOne);
+        businessDao.add(barTwo);
+        businessDao.add(notABar);
+        assertEquals(3, businessDao.getAll().size());
+        assertEquals(2, businessDao.getAllBars().size());
+        businessDao.deleteAllBars();
+        assertEquals(1, businessDao.getAll().size());
+        assertEquals(0, businessDao.getAllBars().size());
+    }
+
+    @Test
+    public void deleteAllCafes_removesAllCafeSubtypeBusiness_true() {
+        Business cafeOne = setupCafe();
+        Business cafeTwo = setupCafe();
+        cafeTwo.setName("TEST");
+        Business notACafe = setupBar();
+        businessDao.add(cafeOne);
+        businessDao.add(cafeTwo);
+        businessDao.add(notACafe);
+        assertEquals(3, businessDao.getAll().size());
+        assertEquals(2, businessDao.getAllCafes().size());
+        businessDao.deleteAllCafes();
+        assertEquals(1, businessDao.getAll().size());
+        assertEquals(0, businessDao.getAllCafes().size());
+    }
+
+    @Test
+    public void deleteAllRestaurants_removesAllRestaurantSubtypeBusiness_true() {
+        Business restaurantOne = setupRestaurant();
+        Business restaurantTwo = setupRestaurant();
+        restaurantTwo.setName("TEST");
+        Business notARestaurant = setupBar();
+        businessDao.add(restaurantOne);
+        businessDao.add(restaurantTwo);
+        businessDao.add(notARestaurant);
+        assertEquals(3, businessDao.getAll().size());
+        assertEquals(2, businessDao.getAllRestaurants().size());
+        businessDao.deleteAllRestaurants();
+        assertEquals(1, businessDao.getAll().size());
+        assertEquals(0, businessDao.getAllRestaurants().size());
+    }
+
+    @Test
     public void deleteAllDeletesAll() throws Exception {
         Business bakery = setupBakery();
         Business bar = setupBar();
