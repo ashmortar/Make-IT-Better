@@ -216,11 +216,41 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
 
     @Override
     public List<Bakery> getAllBakeries() {
-        String sql = "SELECT name, phone, website, specialty, glutenFree FROM businesses WHERE type = :type";
+        String sql = "SELECT name, phone, website, hours, specialty, glutenFree FROM businesses WHERE type = :type";
         try (Connection con = sql2o.open()){
             return con.createQuery(sql)
                     .addParameter("type", "bakery")
                     .executeAndFetch(Bakery.class);
+        }
+    }
+
+    @Override
+    public List<Bar> getAllBars() {
+        String sql = "SELECT name, phone, website, hours, food, atmosphere, hasTaps, hasCocktails FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("type", "bar")
+                    .executeAndFetch(Bar.class);
+        }
+    }
+
+    @Override
+    public List<Cafe> getAllCafes() {
+        String sql = "SELECT name, phone, website, hours, food, fairTrade  FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("type", "cafe")
+                    .executeAndFetch(Cafe.class);
+        }
+    }
+
+    @Override
+    public List<Restaurant> getAllRestaurants() {
+        String sql = "SELECT name, phone, website, hours, food, needReservation, atmosphere, hasBar  FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("type", "restaurant")
+                    .executeAndFetch(Restaurant.class);
         }
     }
 
@@ -346,11 +376,47 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
         }
     }
 
+    @Override
     public void deleteAllBakeries() {
         String sql = "DELETE FROM businesses WHERE type = :type";
         try (Connection con = sql2o.open()){
             con.createQuery(sql)
                     .addParameter("type", "bakery")
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+    @Override
+    public void deleteAllBars() {
+        String sql = "DELETE FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("type", "bars")
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public void deleteAllCafes() {
+        String sql = "DELETE FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("type", "cafe")
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
+    @Override
+    public void deleteAllRestaurants() {
+        String sql = "DELETE FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("type", "restaurant")
                     .executeUpdate();
         } catch (Sql2oException ex) {
             System.out.println(ex);

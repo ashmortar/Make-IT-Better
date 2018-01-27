@@ -6,11 +6,10 @@ import java.util.List;
 public interface RestaurantDao {
 //    //create handled by add switch method
 //    //read
-//    List<Restaurant> getAllRestaurants();
+    List<Restaurant> getAllRestaurants();
 //
-//    //update
-//    void updateRestaurant(int id, String name, String phone, String website, String hours, String food, boolean needReservation, String atmosphere, boolean hasBar);
-//
+//    //update handled by switch method
+
 //    //destroy\
-//    void deleteAllRestaurants();
+    void deleteAllRestaurants();
 }

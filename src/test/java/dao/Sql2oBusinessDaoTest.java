@@ -192,6 +192,45 @@ public class Sql2oBusinessDaoTest {
     }
 
     @Test
+    public void getAllBars_returnsOnlyBarSubtype_true() throws Exception {
+        Business barOne = setupBar();
+        Business barTwo = setupBar();
+        barTwo.setName("TEST");
+        Business notABar = setupCafe();
+        businessDao.add(barOne);
+        businessDao.add(barTwo);
+        businessDao.add(notABar);
+        assertEquals(2, businessDao.getAllBars().size());
+        assertFalse(businessDao.getAllBakeries().contains(notABar));
+    }
+
+    @Test
+    public void getAllCafes_returnsOnlyCafeSubtype_true() throws Exception {
+        Business cafeOne = setupCafe();
+        Business cafeTwo = setupCafe();
+        cafeTwo.setName("TEST");
+        Business notACafe = setupBar();
+        businessDao.add(cafeOne);
+        businessDao.add(cafeTwo);
+        businessDao.add(notACafe);
+        assertEquals(2, businessDao.getAllCafes().size());
+        assertFalse(businessDao.getAllBakeries().contains(notACafe));
+    }
+
+    @Test
+    public void getAllRestaurants_returnsOnlyRestaurantSubtype_true() throws Exception {
+        Business restaurantOne = setupRestaurant();
+        Business restaurantTwo = setupRestaurant();
+        restaurantTwo.setName("TEST");
+        Business notARestaurant = setupBar();
+        businessDao.add(restaurantOne);
+        businessDao.add(restaurantTwo);
+        businessDao.add(notARestaurant);
+        assertEquals(2, businessDao.getAllRestaurants().size());
+        assertFalse(businessDao.getAllBakeries().contains(notARestaurant));
+    }
+
+    @Test
     public void getAllAddressesForBusiness_worksForAllSubtypes_True() throws Exception {
         Business bakery = setupBakery();
         Address bakeryAddress1 = new Address("a", "a", "a", "a");

@@ -5,14 +5,13 @@ import models.*;
 import java.util.List;
 
 public interface CafeDao {
-//    //create handled by add switch method  //    //create
-
-//    //read
-//    List<Cafe> getAllCafes();
+//    //create handled by add switch method
 //
-//    //update
-//    void updateCafe(int id, String name, String phone, String website, String hours, String food, boolean fairTrade);
+//    //read
+    List<Cafe> getAllCafes();
+//
+//    //update handled by update switch method
 //
 //    //destroy
-//    void deleteAllCafes();
+    void deleteAllCafes();
 }
