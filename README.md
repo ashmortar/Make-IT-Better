@@ -13,6 +13,16 @@ This is the logic for an api that will allow an app maintain a database of busin
 * run App.java
 * use a service like Postman to send requests at the api to see what it can do
 
+##What you can do
+* routes are constructed through RESTful conventions so API querys should follow suit.
+* /businesses -shows all businesses
+* /businesses/new adds the posted JSON business object
+* /businesses/:businessId/addresses/new - adds an address
+* routes continue to follow RESTful patterns and support basic CRUD functionality.
+*/tours/new will generate a new tour.  Currently the json object will need properties for startPoint and endPoint with the option for additional waypoints included as an array
+*/tours/:tourId will then return you the google maps directions api data for your tour
+
+
 ## Support and Contact Info
 
 If you have any questions or concerns please contact me via email: ashmortar@gmail.com
