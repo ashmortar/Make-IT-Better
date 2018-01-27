@@ -13,9 +13,9 @@ public interface BakeryDao {
 //    //read
     List<Bakery>getAllBakeries();
 
-//    //update
-//    void updateBakery(int businessId, String name, String phone, String website, String hours, String specialty, boolean glutenFree);
+//    //update handled by business dao update switch method
+//
 //
 //    //destroy
-//    void deleteAllBakeries();
+    void deleteAllBakeries();
 }

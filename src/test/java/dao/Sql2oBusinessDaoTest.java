@@ -345,6 +345,22 @@ public class Sql2oBusinessDaoTest {
     }
 
     @Test
+    public void deleteAllBakeries_removesAllBakerySubtypeBusiness_true() {
+        Business bakeryOne = setupBakery();
+        Business bakeryTwo = setupBakery();
+        bakeryTwo.setName("TEST");
+        Business notABakery = setupBar();
+        businessDao.add(bakeryOne);
+        businessDao.add(bakeryTwo);
+        businessDao.add(notABakery);
+        assertEquals(3, businessDao.getAll().size());
+        assertEquals(2, businessDao.getAllBakeries().size());
+        businessDao.deleteAllBakeries();
+        assertEquals(1, businessDao.getAll().size());
+        assertEquals(0, businessDao.getAllBakeries().size());
+    }
+
+    @Test
     public void deleteAllDeletesAll() throws Exception {
         Business bakery = setupBakery();
         Business bar = setupBar();

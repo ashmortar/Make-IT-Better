@@ -346,6 +346,17 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
         }
     }
 
+    public void deleteAllBakeries() {
+        String sql = "DELETE FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            con.createQuery(sql)
+                    .addParameter("type", "bakery")
+                    .executeUpdate();
+        } catch (Sql2oException ex) {
+            System.out.println(ex);
+        }
+    }
+
     @Override
     public void deleteAll() {
         String sql = "DELETE FROM businesses";
