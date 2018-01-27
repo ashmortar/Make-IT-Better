@@ -10,7 +10,9 @@ import models.*;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -32,6 +34,51 @@ public class App {
         causeDao = new Sql2oCauseDao(sql2o);
         addressDao = new Sql2oAddressDao(sql2o);
         con = sql2o.open();
+
+        //data loaded in for seeing
+        Address testBakeryAddress = new Address("1401 SW Yamhill St", "Portland", "OR", "97205");
+        Address testBarAddress = new Address("2282 NW Hoyt St", "Portland", "OR", "97210");
+        Address testCafeAddress = new Address("712 NW 21st Ave", "Portland", "OR", "97209");
+        Address testRestaurantAddress = new Address("910 SW Salmon St", "Portland", "OR", "97205");
+        Address testCause1Address = new Address("fdasfda", "afsdsadtg", "gard", "adfg");
+        Address testCause2Address = new Address("fdasfda", "afsdsadtg", "gard", "adfg");
+        addressDao.add(testBakeryAddress);
+        addressDao.add(testBarAddress);
+        addressDao.add(testCafeAddress);
+        addressDao.add(testRestaurantAddress);
+        addressDao.add(testCause1Address);
+        addressDao.add(testCause2Address);
+        Cause testCause1 = new Cause("name", "type", "description", "phone");
+        Cause testCause2 = new Cause("indigo", "charity", "we do stufF", "callme");
+        causeDao.add(testCause1);
+        causeDao.add(testCause2);
+         Business testBakery = new Bakery("Little Red's Bakeshop and Cafe", "123-456-7890", "littlereds.com", "7am to 3pm", "Pastries and Cakes", false);
+         Business testBar = new Bar("McMenamins Rams Head", "123-456-7890", "theirwebsitehere.com", "12pm to 1am", "Varies by location", "casual", true, true);
+        Business testCafe = new Cafe("Coffee Time", "123-456-7890", "maybecoffeetime.com", "5am - 3pm", "Pastries and snacks", true);
+        Business testRestaurant = new Restaurant("Shigezo", "123-456-7890", "here.com", "12pm - 11pm", "japanese izakaya", false, "casual", true);
+        businessDao.add(testBakery);
+        businessDao.add(testBar);
+        businessDao.add(testCafe);
+        businessDao.add(testRestaurant);
+        businessDao.addAddressToBusiness(testBakery, testBakeryAddress);
+        businessDao.addAddressToBusiness(testBakery, testBarAddress);
+        businessDao.addAddressToBusiness(testCafe, testCafeAddress);
+        businessDao.addAddressToBusiness(testRestaurant, testRestaurantAddress);
+        causeDao.addAddressToCause(testCause1, testCause1Address);
+        causeDao.addAddressToCause(testCause2, testCause2Address);
+        businessDao.addCauseToBusiness(testBakery, testCause1);
+        businessDao.addCauseToBusiness(testBakery, testCause2);
+        businessDao.addCauseToBusiness(testBar, testCause1);
+        businessDao.addCauseToBusiness(testCafe, testCause2);
+        businessDao.addCauseToBusiness(testRestaurant, testCause1);
+        businessDao.addCauseToBusiness(testRestaurant, testCause2);
+        Tour tour1 = new Tour(1, 4);
+        List<String> waypoints = new ArrayList<>();
+        waypoints.add("2");
+        waypoints.add("3");
+        Tour tour2 = new Tour (1, 4, waypoints);
+        tourDao.add(tour1);
+        tourDao.add(tour2);
 
         //exception messages
         String badData = "Your post was invalid, please verify your data structure";
