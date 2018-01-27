@@ -214,6 +214,15 @@ public class Sql2oBusinessDao implements BakeryDao, BarDao, CafeDao, RestaurantD
         return businesses;
     }
 
+    @Override
+    public List<Bakery> getAllBakeries() {
+        String sql = "SELECT name, phone, website, specialty, glutenFree FROM businesses WHERE type = :type";
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql)
+                    .addParameter("type", "bakery")
+                    .executeAndFetch(Bakery.class);
+        }
+    }
 
     @Override
     public List<Address> getAllAddressesForABusiness(int businessId) {
