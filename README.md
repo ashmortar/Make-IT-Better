@@ -17,6 +17,10 @@ This is the logic for an api that will allow an app maintain a database of busin
 
 If you have any questions or concerns please contact me via email: ashmortar@gmail.com
 
+## Further Exploration
+* several methods have been created that routes have not yet been written to take adavantage of.  These include sorting by a business type.
+* once implemented this will allow sorting to be combined so that a user could, for instance, request all of the bars associated with a charity, then produce a pub crawl route that visits those establishments
+
 ## Technologies Used
 
 * Java
